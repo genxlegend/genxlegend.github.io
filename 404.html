@@ -7,9 +7,387 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Fira+Code:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="404.css" />
 
+<style>
+/* ══════════════════════════════════════════════
+   404 PAGE — extra styles (uses portfolio tokens)
+   ══════════════════════════════════════════════ */
 
+/* ── Ambient blobs ── */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+  animation: blobFloat 10s ease-in-out infinite;
+}
+.blob-a {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(139,92,246,.18) 0%, transparent 70%);
+  top: -150px; right: -100px;
+}
+.blob-b {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(196,181,253,.15) 0%, transparent 70%);
+  bottom: -80px; left: -80px;
+  animation-delay: -5s;
+}
+[data-theme="dark"] .blob-a {
+  background: radial-gradient(circle, rgba(139,92,246,.35) 0%, transparent 70%);
+}
+[data-theme="dark"] .blob-b {
+  background: radial-gradient(circle, rgba(124,58,237,.3) 0%, transparent 70%);
+}
+@keyframes blobFloat {
+  0%,100% { transform: scale(1) translate(0,0); }
+  50%     { transform: scale(1.1) translate(20px,-20px); }
+}
+
+/* ── Page body ── */
+.page-404 {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.main-404 {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 90px 5% 60px;
+  gap: 2rem;
+}
+
+/* ── 404 Header ── */
+.header-404 {
+  text-align: center;
+  animation: fadeUp .6s .15s both;
+}
+.err-tag {
+  font-family: 'Fira Code', monospace;
+  font-size: .85rem;
+  color: var(--primary-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  margin-bottom: .8rem;
+}
+.err-tag .blink-dot {
+  width: 8px; height: 8px;
+  background: #f87171;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #f87171;
+  animation: dotBlink 1s step-end infinite;
+}
+@keyframes dotBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.err-num {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(5rem, 15vw, 9.5rem);
+  font-weight: 800;
+  line-height: .95;
+  color: var(--primary);
+  letter-spacing: -4px;
+  position: relative;
+  display: inline-block;
+  animation: glitch 7s 3s infinite;
+}
+.err-num::before,
+.err-num::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+}
+.err-num::before {
+  color: #c084fc;
+  animation: glitchTop 7s 3s infinite;
+  clip-path: polygon(0 15%, 100% 15%, 100% 40%, 0 40%);
+}
+.err-num::after {
+  color: #67e8f9;
+  animation: glitchBot 7s 3s infinite;
+  clip-path: polygon(0 58%, 100% 58%, 100% 78%, 0 78%);
+}
+@keyframes glitch {
+  0%,89%,100%  { transform: translate(0); }
+  90%          { transform: translate(-3px, 1px) skewX(-2deg); }
+  92%          { transform: translate(4px,-1px) skewX(1deg); }
+  94%          { transform: translate(-2px, 2px); }
+  96%          { transform: translate(0); }
+}
+@keyframes glitchTop {
+  0%,89%,100%  { transform: translate(0); opacity: 0; }
+  90%          { transform: translate(-8px, 0); opacity: .8; }
+  93%          { transform: translate(8px, 0);  opacity: .5; }
+  95%          { transform: translate(0); opacity: 0; }
+}
+@keyframes glitchBot {
+  0%,89%,100%  { transform: translate(0); opacity: 0; }
+  91%          { transform: translate(6px, 0);  opacity: .7; }
+  94%          { transform: translate(-6px, 0); opacity: .4; }
+  96%          { transform: translate(0); opacity: 0; }
+}
+[data-theme="dark"] .err-num {
+  text-shadow: 0 0 50px rgba(139,92,246,.65), 0 0 100px rgba(139,92,246,.25);
+}
+
+.err-headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.4rem, 3.5vw, 2.1rem);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: .4rem;
+}
+.err-sub {
+  font-size: .95rem;
+  color: var(--text-muted);
+  font-family: 'Fira Code', monospace;
+}
+
+/* ── Console wrapper ── */
+.console-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  animation: fadeUp .6s .35s both;
+}
+
+/* ── Terminal window ── */
+.term-window {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #0f0e1a;
+  border: 1px solid rgba(167,139,250,.25);
+  font-family: 'Fira Code', monospace;
+  box-shadow: var(--sh-lg);
+  transition: box-shadow var(--transition);
+}
+[data-theme="dark"]  .term-window { box-shadow: var(--glow-md); }
+[data-theme="light"] .term-window { box-shadow: 0 16px 50px rgba(100,70,180,.28); }
+
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .7rem 1.2rem;
+  background: #1c1b2e;
+  border-bottom: 1px solid rgba(167,139,250,.1);
+  user-select: none;
+}
+.tdot { width: 12px; height: 12px; border-radius: 50%; }
+.tdot-r { background: #ff5f57; }
+.tdot-y { background: #febc2e; }
+.tdot-g { background: #28c840; }
+.term-bar-title {
+  margin-left: .5rem;
+  font-size: .78rem;
+  color: #6b6a8a;
+  flex: 1;
+  text-align: center;
+}
+/* Status badge top-right */
+.term-status {
+  font-size: .72rem;
+  padding: .2rem .6rem;
+  border-radius: 20px;
+  border: 1px solid #333;
+  color: #888;
+  transition: all .4s ease;
+}
+.term-status.running  { border-color: #facc15; color: #facc15; box-shadow: 0 0 8px rgba(250,204,21,.3); }
+.term-status.failed   { border-color: #f87171; color: #f87171; box-shadow: 0 0 8px rgba(248,113,113,.3); }
+.term-status.retrying { border-color: #c084fc; color: #c084fc; box-shadow: 0 0 8px rgba(192,132,252,.3); }
+
+/* Body */
+.term-body {
+  padding: 1.4rem 1.6rem 1.8rem;
+  min-height: 260px;
+  max-height: 340px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  scrollbar-width: thin;
+  scrollbar-color: #2a2840 transparent;
+}
+.term-body::-webkit-scrollbar { width: 4px; }
+.term-body::-webkit-scrollbar-thumb { background: #2a2840; border-radius: 2px; }
+
+/* Individual lines */
+.t-line {
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
+  font-size: .88rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  opacity: 0;
+  transform: translateY(4px);
+  animation: lineIn .25s forwards;
+}
+@keyframes lineIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.t-prompt  { color: #a78bfa; flex-shrink: 0; }
+.t-cmd     { color: #e8e0ff; }
+.t-err     { color: #f87171; padding-left: 1.4rem; }
+.t-warn    { color: #fbbf24; padding-left: 1.4rem; }
+.t-info    { color: #7dd3fc; padding-left: 1.4rem; }
+.t-ok      { color: #86efac; padding-left: 1.4rem; }
+.t-divider { color: #3b3a55; padding-left: 0; letter-spacing: 2px; font-size: .78rem; }
+.t-fail-msg {
+  color: #f87171;
+  font-weight: 500;
+  padding-left: 1.4rem;
+  font-size: .9rem;
+  letter-spacing: .06em;
+}
+.t-retry-msg {
+  color: #c084fc;
+  padding-left: 1.4rem;
+  font-size: .9rem;
+}
+.t-cursor {
+  color: #a78bfa;
+  animation: cur .7s step-end infinite;
+  font-size: 1rem;
+}
+@keyframes cur { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── EMOJI BURST ── */
+.emoji-stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+}
+.burst-emoji {
+  position: absolute;
+  font-size: 1.8rem;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  animation: emojiPop var(--dur, 1.6s) var(--ease, cubic-bezier(.2,.8,.4,1)) forwards;
+  pointer-events: none;
+}
+@keyframes emojiPop {
+  0%   { transform: translate(-50%,-50%) scale(0) rotate(0deg); opacity: 1; }
+  30%  { opacity: 1; }
+  60%  { transform: translate(
+    calc(-50% + var(--tx,0px)),
+    calc(-50% + var(--ty,0px))
+  ) scale(1.2) rotate(var(--rot,20deg)); opacity: .9; }
+  100% { transform: translate(
+    calc(-50% + var(--tx,0px)),
+    calc(-50% + var(--ty,0px) + 60px)
+  ) scale(.6) rotate(var(--rot2,40deg)); opacity: 0; }
+}
+
+/* ── FAIL banner that briefly flashes ── */
+.fail-flash {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  padding: .45rem 1.6rem;
+  background: rgba(248,113,113,.12);
+  border-top: 1px solid rgba(248,113,113,.3);
+  border-bottom: 1px solid rgba(248,113,113,.3);
+  font-family: 'Fira Code', monospace;
+  font-size: .82rem;
+  color: #f87171;
+  text-align: center;
+  letter-spacing: .08em;
+  opacity: 0;
+  transition: opacity .3s;
+  z-index: 5;
+}
+.fail-flash.show { opacity: 1; }
+
+/* ── Round indicator pills ── */
+.round-track {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: .6rem;
+}
+.round-pip {
+  width: 28px; height: 5px;
+  border-radius: 3px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  transition: background .4s, box-shadow .4s;
+}
+.round-pip.active  { background: var(--primary); }
+.round-pip.done    { background: #f87171; }
+[data-theme="dark"] .round-pip.active { box-shadow: 0 0 8px var(--primary); }
+[data-theme="dark"] .round-pip.done   { box-shadow: 0 0 8px rgba(248,113,113,.5); }
+
+/* ── Nav links below console ── */
+.back-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeUp .6s .55s both;
+}
+.back-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .65rem 1.5rem;
+  border-radius: 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: .9rem;
+  font-weight: 700;
+  transition: all var(--transition);
+}
+.link-home {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: var(--sh-btn);
+}
+.link-home:hover { background: var(--primary-soft); transform: translateY(-2px); }
+.link-outline {
+  border: 2px solid var(--border);
+  color: var(--text-muted);
+  box-shadow: var(--sh-sm);
+}
+.link-outline:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
+[data-theme="dark"] .link-home:hover    { box-shadow: var(--glow-md); }
+[data-theme="dark"] .link-outline:hover { box-shadow: var(--glow-sm); }
+
+/* ── Minimal footer ── */
+.footer-404 {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 1.2rem 5%;
+  font-size: .8rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  font-family: 'Fira Code', monospace;
+}
+
+/* ── Shared animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .err-num { letter-spacing: -2px; }
+  .term-body { min-height: 200px; font-size: .82rem; }
+  .burst-emoji { font-size: 1.4rem; }
+}
+</style>
 </head>
 <body class="page-404">
 
@@ -18,6 +396,30 @@
   <div class="blob blob-b"></div>
 
   <!-- ═══════ NAVBAR ═══════ -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-brand">Gen_X_Legend</a>
+    <ul class="nav-links">
+      <li><a href="index.html#home"   class="nav-link">Home</a></li>
+      <li><a href="index.html#about"  class="nav-link">About</a></li>
+      <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+      <li><a href="index.html#contact"class="nav-link">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <i class="fas fa-sun  sun-icon"></i>
+      <i class="fas fa-moon moon-icon"></i>
+    </button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html#home"    class="mob-link">Home</a>
+    <a href="index.html#about"   class="mob-link">About</a>
+    <a href="index.html#skills"  class="mob-link">Skills</a>
+    <a href="index.html#contact" class="mob-link">Contact</a>
+  </div>
 
   <!-- ═══════ MAIN ═══════ -->
   <main class="main-404">
@@ -75,6 +477,292 @@
     © 2025 <strong>Gen_X_Legend</strong> &nbsp;·&nbsp; You weren't supposed to end up here 😬
   </footer>
 
+<script>
+/* ══════════════════════════════════════════════
+   THEME (synced with portfolio)
+   ══════════════════════════════════════════════ */
+const root        = document.documentElement;
+const themeToggle = document.getElementById('themeToggle');
+const THEME_KEY   = 'gxl_theme';
 
+const applyTheme = t => { root.setAttribute('data-theme', t); localStorage.setItem(THEME_KEY, t); };
+applyTheme(localStorage.getItem(THEME_KEY) || 'light');
+themeToggle.addEventListener('click', () => {
+  applyTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+});
+
+/* Hamburger */
+const hamburger  = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+mobileMenu.querySelectorAll('.mob-link').forEach(l => l.addEventListener('click', () => {
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+}));
+
+/* ══════════════════════════════════════════════
+   CONSOLE ENGINE
+   ══════════════════════════════════════════════ */
+const termBody   = document.getElementById('termBody');
+const termStatus = document.getElementById('termStatus');
+const failFlash  = document.getElementById('failFlash');
+const emojiStage = document.getElementById('emojiStage');
+const roundTrack = document.getElementById('roundTrack');
+
+/* ── Sequences ── */
+const SEQUENCES = [
+  {
+    label: 'Round 1',
+    lines: [
+      { type: 'divider', text: '─────────────────── attempt #1 ────────────────────' },
+      { type: 'cmd',     text: 'ping page.html --locate --timeout=5' },
+      { type: 'err',     text: 'Request timeout... 3/3 packets lost (RIP)' },
+      { type: 'cmd',     text: 'sudo find / -name "missing-page.html"' },
+      { type: 'warn',    text: 'find: \'/sys\': Permission denied' },
+      { type: 'err',     text: 'find: \'/root\': Permission denied (try harder)' },
+      { type: 'cmd',     text: 'npm install fix-my-404 --save-dev' },
+      { type: 'info',    text: 'npm: sill idealTree buildDeps...' },
+      { type: 'err',     text: 'npm ERR! 404 Not Found: \'fix-my-404\' is not a package' },
+      { type: 'cmd',     text: 'git checkout -- deleted-page.html' },
+      { type: 'err',     text: 'error: pathspec \'deleted-page.html\' did not match any files' },
+    ],
+    failMsg : '✖  PAGE NOT FOUND. RECOVERY FAILED.',
+    emojis  : ['💥','😭','🤦','❌','😫','🚨'],
+  },
+  {
+    label: 'Round 2',
+    lines: [
+      { type: 'divider', text: '─────────────────── attempt #2 ────────────────────' },
+      { type: 'cmd',     text: 'python3 fix_404.py --aggressive' },
+      { type: 'info',    text: 'Traceback (most recent call last):' },
+      { type: 'err',     text: '  FileNotFoundError: [Errno 2] page does not exist' },
+      { type: 'cmd',     text: 'docker run --rm magic-fixer:latest /fix-all' },
+      { type: 'warn',    text: 'Unable to find image \'magic-fixer:latest\' locally' },
+      { type: 'err',     text: 'docker: Error: No such image. Does it even exist?' },
+      { type: 'cmd',     text: 'curl -X PATCH /missing-page -d "fix=true&please=yes"' },
+      { type: 'info',    text: 'Connecting to server...' },
+      { type: 'err',     text: '{"error": "lol no", "status": 404, "hint": "give up"}' },
+      { type: 'cmd',     text: 'sudo reboot --force --really-force' },
+      { type: 'warn',    text: 'Rebooting... [██████░░░░] 60%...' },
+      { type: 'err',     text: 'KERNEL PANIC: still broken after reboot. Classic.' },
+    ],
+    failMsg : '✖  CRITICAL FAILURE. NOTHING WORKS.',
+    emojis  : ['😤','🔥','💀','🤯','😡','⚠️'],
+  },
+  {
+    label: 'Round 3',
+    lines: [
+      { type: 'divider', text: '─────────────── final attempt (desperate) ──────────' },
+      { type: 'cmd',     text: 'have_you_tried --turning-it-off-and-on' },
+      { type: 'err',     text: 'command not found: have_you_tried' },
+      { type: 'cmd',     text: 'google "why is 404 page still broken pls help"' },
+      { type: 'warn',    text: '1,840,000 results... none actually useful' },
+      { type: 'cmd',     text: 'pray --deity=any --urgency=maximum' },
+      { type: 'err',     text: 'Error: divine_intervention module not found (as expected)' },
+      { type: 'cmd',     text: 'echo "please just work" >> /dev/hope' },
+      { type: 'err',     text: 'write failed: broken pipe (hope.exe has stopped working)' },
+      { type: 'cmd',     text: 'rm -rf the-problem && problem=solved' },
+      { type: 'err',     text: 'rm: cannot remove \'the-problem\': It\'s a metaphor' },
+    ],
+    failMsg : '✖  ALL ATTEMPTS FAILED. LOOPING RECOVERY...',
+    emojis  : ['🙏','😂','👻','🤷','😇','🔄'],
+  },
+];
+
+/* ── Build round pills ── */
+SEQUENCES.forEach((_, i) => {
+  const pip = document.createElement('span');
+  pip.className = 'round-pip';
+  pip.id = `pip-${i}`;
+  roundTrack.appendChild(pip);
+});
+
+/* ── Helpers ── */
+let cursorEl = null;
+
+function removeCursor() {
+  if (cursorEl) { cursorEl.remove(); cursorEl = null; }
+}
+
+function addLine(type, text, delayMs) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      removeCursor();
+
+      const line = document.createElement('div');
+      line.className = 't-line';
+
+      if (type === 'cmd') {
+        line.innerHTML = `<span class="t-prompt">$</span><span class="t-cmd"></span>`;
+        termBody.appendChild(line);
+        typeText(line.querySelector('.t-cmd'), text, 38, () => {
+          addCursor();
+          resolve();
+        });
+      } else {
+        const cls = {
+          err:'t-err', warn:'t-warn', info:'t-info',
+          ok:'t-ok', divider:'t-divider',
+          fail:'t-fail-msg', retry:'t-retry-msg'
+        }[type] || 't-info';
+        line.innerHTML = `<span class="${cls}"></span>`;
+        termBody.appendChild(line);
+        typeText(line.querySelector(`.${cls}`), text, 18, () => {
+          addCursor();
+          resolve();
+        });
+      }
+      termBody.scrollTop = termBody.scrollHeight;
+    }, delayMs);
+  });
+}
+
+function addCursor() {
+  removeCursor();
+  cursorEl = document.createElement('div');
+  cursorEl.className = 't-line';
+  cursorEl.innerHTML = '<span class="t-cursor">█</span>';
+  termBody.appendChild(cursorEl);
+  termBody.scrollTop = termBody.scrollHeight;
+}
+
+function typeText(el, text, speed, done) {
+  let i = 0;
+  const tick = () => {
+    el.textContent = text.slice(0, ++i);
+    termBody.scrollTop = termBody.scrollHeight;
+    if (i < text.length) setTimeout(tick, speed + Math.random() * 12);
+    else if (done) done();
+  };
+  tick();
+}
+
+function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+/* ── Emoji burst ── */
+function burstEmojis(emojis) {
+  emojiStage.innerHTML = '';
+  const count = 14;
+  for (let i = 0; i < count; i++) {
+    const em = document.createElement('span');
+    em.className = 'burst-emoji';
+    em.textContent = emojis[i % emojis.length];
+    const angle = (360 / count) * i + (Math.random() - .5) * 25;
+    const rad   = (angle * Math.PI) / 180;
+    const dist  = 130 + Math.random() * 100;
+    const tx    = Math.cos(rad) * dist;
+    const ty    = Math.sin(rad) * dist;
+    const rot   = (Math.random() - .5) * 80;
+    const rot2  = rot + (Math.random() - .5) * 40;
+    const dur   = 1.4 + Math.random() * .6;
+    const delay = Math.random() * .3;
+
+    em.style.cssText = `
+      --tx: ${tx}px;
+      --ty: ${ty}px;
+      --rot: ${rot}deg;
+      --rot2: ${rot2}deg;
+      --dur: ${dur}s;
+      --ease: cubic-bezier(.2,.8,.4,1);
+      animation-delay: ${delay}s;
+      font-size: ${1.4 + Math.random() * 1}rem;
+    `;
+    emojiStage.appendChild(em);
+  }
+  // Cleanup
+  setTimeout(() => { emojiStage.innerHTML = ''; }, 3000);
+}
+
+/* ── Flash fail banner ── */
+function flashFail(msg) {
+  failFlash.textContent = msg;
+  failFlash.classList.add('show');
+  setTimeout(() => failFlash.classList.remove('show'), 2800);
+}
+
+/* ── Set status badge ── */
+function setStatus(state, label) {
+  termStatus.className = `term-status ${state}`;
+  termStatus.textContent = label;
+}
+
+/* ── Update round pills ── */
+function updatePips(activeIdx, doneUpTo) {
+  SEQUENCES.forEach((_, i) => {
+    const pip = document.getElementById(`pip-${i}`);
+    pip.className = 'round-pip' +
+      (i === activeIdx ? ' active' : '') +
+      (i <  activeIdx  ? ' done'   : '');
+  });
+}
+
+/* ── Main loop ── */
+async function runLoop() {
+  let accTime = 0;
+  const LINE_GAPS = [0, 700, 1400, 2200, 2900, 3700, 4400, 5200, 5900, 6700, 7400, 8200];
+
+  while (true) {
+    for (let si = 0; si < SEQUENCES.length; si++) {
+      const seq = SEQUENCES[si];
+      updatePips(si, si);
+      setStatus('running', `running (${si + 1}/${SEQUENCES.length})`);
+
+      let offset = 0;
+      for (const line of seq.lines) {
+        await addLine(line.type, line.text, offset);
+        offset = line.type === 'cmd' ? 1100 : 700;
+        await wait(50);
+      }
+
+      await wait(800);
+      removeCursor();
+
+      /* Fail moment */
+      setStatus('failed', 'FAILED');
+      await addLine('fail', seq.failMsg, 0);
+      await wait(400);
+
+      burstEmojis(seq.emojis);
+      flashFail(seq.failMsg);
+
+      // Mark pill done
+      document.getElementById(`pip-${si}`).classList.add('done');
+      document.getElementById(`pip-${si}`).classList.remove('active');
+
+      await wait(2600);
+
+      /* Retry message before next round */
+      if (si < SEQUENCES.length - 1) {
+        setStatus('retrying', 'retrying...');
+        await addLine('retry', `↻  Launching recovery sequence ${si + 2}...`, 0);
+        await wait(1200);
+      }
+    }
+
+    /* Full loop done — clear and restart */
+    setStatus('retrying', 'restarting loop');
+    await addLine('retry', '↻  All recovery attempts failed. Looping...', 0);
+    await wait(1800);
+
+    termBody.innerHTML = '';
+    addCursor();
+    updatePips(-1, -1);
+    // Reset pills
+    SEQUENCES.forEach((_, i) => {
+      document.getElementById(`pip-${i}`).className = 'round-pip';
+    });
+    await wait(700);
+  }
+}
+
+/* Kick off */
+window.addEventListener('load', () => {
+  addCursor();
+  setTimeout(runLoop, 800);
+});
+</script>
 </body>
 </html>
