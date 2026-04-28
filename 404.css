@@ -1,0 +1,378 @@
+/* ══════════════════════════════════════════════
+   404 PAGE — extra styles (uses portfolio tokens)
+   ══════════════════════════════════════════════ */
+
+/* ── Ambient blobs ── */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+  animation: blobFloat 10s ease-in-out infinite;
+}
+.blob-a {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(139,92,246,.18) 0%, transparent 70%);
+  top: -150px; right: -100px;
+}
+.blob-b {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(196,181,253,.15) 0%, transparent 70%);
+  bottom: -80px; left: -80px;
+  animation-delay: -5s;
+}
+[data-theme="dark"] .blob-a {
+  background: radial-gradient(circle, rgba(139,92,246,.35) 0%, transparent 70%);
+}
+[data-theme="dark"] .blob-b {
+  background: radial-gradient(circle, rgba(124,58,237,.3) 0%, transparent 70%);
+}
+@keyframes blobFloat {
+  0%,100% { transform: scale(1) translate(0,0); }
+  50%     { transform: scale(1.1) translate(20px,-20px); }
+}
+
+/* ── Page body ── */
+.page-404 {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.main-404 {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 90px 5% 60px;
+  gap: 2rem;
+}
+
+/* ── 404 Header ── */
+.header-404 {
+  text-align: center;
+  animation: fadeUp .6s .15s both;
+}
+.err-tag {
+  font-family: 'Fira Code', monospace;
+  font-size: .85rem;
+  color: var(--primary-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  margin-bottom: .8rem;
+}
+.err-tag .blink-dot {
+  width: 8px; height: 8px;
+  background: #f87171;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #f87171;
+  animation: dotBlink 1s step-end infinite;
+}
+@keyframes dotBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.err-num {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(5rem, 15vw, 9.5rem);
+  font-weight: 800;
+  line-height: .95;
+  color: var(--primary);
+  letter-spacing: -4px;
+  position: relative;
+  display: inline-block;
+  animation: glitch 7s 3s infinite;
+}
+.err-num::before,
+.err-num::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+}
+.err-num::before {
+  color: #c084fc;
+  animation: glitchTop 7s 3s infinite;
+  clip-path: polygon(0 15%, 100% 15%, 100% 40%, 0 40%);
+}
+.err-num::after {
+  color: #67e8f9;
+  animation: glitchBot 7s 3s infinite;
+  clip-path: polygon(0 58%, 100% 58%, 100% 78%, 0 78%);
+}
+@keyframes glitch {
+  0%,89%,100%  { transform: translate(0); }
+  90%          { transform: translate(-3px, 1px) skewX(-2deg); }
+  92%          { transform: translate(4px,-1px) skewX(1deg); }
+  94%          { transform: translate(-2px, 2px); }
+  96%          { transform: translate(0); }
+}
+@keyframes glitchTop {
+  0%,89%,100%  { transform: translate(0); opacity: 0; }
+  90%          { transform: translate(-8px, 0); opacity: .8; }
+  93%          { transform: translate(8px, 0);  opacity: .5; }
+  95%          { transform: translate(0); opacity: 0; }
+}
+@keyframes glitchBot {
+  0%,89%,100%  { transform: translate(0); opacity: 0; }
+  91%          { transform: translate(6px, 0);  opacity: .7; }
+  94%          { transform: translate(-6px, 0); opacity: .4; }
+  96%          { transform: translate(0); opacity: 0; }
+}
+[data-theme="dark"] .err-num {
+  text-shadow: 0 0 50px rgba(139,92,246,.65), 0 0 100px rgba(139,92,246,.25);
+}
+
+.err-headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.4rem, 3.5vw, 2.1rem);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: .4rem;
+}
+.err-sub {
+  font-size: .95rem;
+  color: var(--text-muted);
+  font-family: 'Fira Code', monospace;
+}
+
+/* ── Console wrapper ── */
+.console-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  animation: fadeUp .6s .35s both;
+}
+
+/* ── Terminal window ── */
+.term-window {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #0f0e1a;
+  border: 1px solid rgba(167,139,250,.25);
+  font-family: 'Fira Code', monospace;
+  box-shadow: var(--sh-lg);
+  transition: box-shadow var(--transition);
+}
+[data-theme="dark"]  .term-window { box-shadow: var(--glow-md); }
+[data-theme="light"] .term-window { box-shadow: 0 16px 50px rgba(100,70,180,.28); }
+
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .7rem 1.2rem;
+  background: #1c1b2e;
+  border-bottom: 1px solid rgba(167,139,250,.1);
+  user-select: none;
+}
+.tdot { width: 12px; height: 12px; border-radius: 50%; }
+.tdot-r { background: #ff5f57; }
+.tdot-y { background: #febc2e; }
+.tdot-g { background: #28c840; }
+.term-bar-title {
+  margin-left: .5rem;
+  font-size: .78rem;
+  color: #6b6a8a;
+  flex: 1;
+  text-align: center;
+}
+/* Status badge top-right */
+.term-status {
+  font-size: .72rem;
+  padding: .2rem .6rem;
+  border-radius: 20px;
+  border: 1px solid #333;
+  color: #888;
+  transition: all .4s ease;
+}
+.term-status.running  { border-color: #facc15; color: #facc15; box-shadow: 0 0 8px rgba(250,204,21,.3); }
+.term-status.failed   { border-color: #f87171; color: #f87171; box-shadow: 0 0 8px rgba(248,113,113,.3); }
+.term-status.retrying { border-color: #c084fc; color: #c084fc; box-shadow: 0 0 8px rgba(192,132,252,.3); }
+
+/* Body */
+.term-body {
+  padding: 1.4rem 1.6rem 1.8rem;
+  min-height: 260px;
+  max-height: 340px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  scrollbar-width: thin;
+  scrollbar-color: #2a2840 transparent;
+}
+.term-body::-webkit-scrollbar { width: 4px; }
+.term-body::-webkit-scrollbar-thumb { background: #2a2840; border-radius: 2px; }
+
+/* Individual lines */
+.t-line {
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
+  font-size: .88rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  opacity: 0;
+  transform: translateY(4px);
+  animation: lineIn .25s forwards;
+}
+@keyframes lineIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.t-prompt  { color: #a78bfa; flex-shrink: 0; }
+.t-cmd     { color: #e8e0ff; }
+.t-err     { color: #f87171; padding-left: 1.4rem; }
+.t-warn    { color: #fbbf24; padding-left: 1.4rem; }
+.t-info    { color: #7dd3fc; padding-left: 1.4rem; }
+.t-ok      { color: #86efac; padding-left: 1.4rem; }
+.t-divider { color: #3b3a55; padding-left: 0; letter-spacing: 2px; font-size: .78rem; }
+.t-fail-msg {
+  color: #f87171;
+  font-weight: 500;
+  padding-left: 1.4rem;
+  font-size: .9rem;
+  letter-spacing: .06em;
+}
+.t-retry-msg {
+  color: #c084fc;
+  padding-left: 1.4rem;
+  font-size: .9rem;
+}
+.t-cursor {
+  color: #a78bfa;
+  animation: cur .7s step-end infinite;
+  font-size: 1rem;
+}
+@keyframes cur { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── EMOJI BURST ── */
+.emoji-stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+}
+.burst-emoji {
+  position: absolute;
+  font-size: 1.8rem;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  animation: emojiPop var(--dur, 1.6s) var(--ease, cubic-bezier(.2,.8,.4,1)) forwards;
+  pointer-events: none;
+}
+@keyframes emojiPop {
+  0%   { transform: translate(-50%,-50%) scale(0) rotate(0deg); opacity: 1; }
+  30%  { opacity: 1; }
+  60%  { transform: translate(
+    calc(-50% + var(--tx,0px)),
+    calc(-50% + var(--ty,0px))
+  ) scale(1.2) rotate(var(--rot,20deg)); opacity: .9; }
+  100% { transform: translate(
+    calc(-50% + var(--tx,0px)),
+    calc(-50% + var(--ty,0px) + 60px)
+  ) scale(.6) rotate(var(--rot2,40deg)); opacity: 0; }
+}
+
+/* ── FAIL banner that briefly flashes ── */
+.fail-flash {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  padding: .45rem 1.6rem;
+  background: rgba(248,113,113,.12);
+  border-top: 1px solid rgba(248,113,113,.3);
+  border-bottom: 1px solid rgba(248,113,113,.3);
+  font-family: 'Fira Code', monospace;
+  font-size: .82rem;
+  color: #f87171;
+  text-align: center;
+  letter-spacing: .08em;
+  opacity: 0;
+  transition: opacity .3s;
+  z-index: 5;
+}
+.fail-flash.show { opacity: 1; }
+
+/* ── Round indicator pills ── */
+.round-track {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: .6rem;
+}
+.round-pip {
+  width: 28px; height: 5px;
+  border-radius: 3px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  transition: background .4s, box-shadow .4s;
+}
+.round-pip.active  { background: var(--primary); }
+.round-pip.done    { background: #f87171; }
+[data-theme="dark"] .round-pip.active { box-shadow: 0 0 8px var(--primary); }
+[data-theme="dark"] .round-pip.done   { box-shadow: 0 0 8px rgba(248,113,113,.5); }
+
+/* ── Nav links below console ── */
+.back-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeUp .6s .55s both;
+}
+.back-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .65rem 1.5rem;
+  border-radius: 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: .9rem;
+  font-weight: 700;
+  transition: all var(--transition);
+}
+.link-home {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: var(--sh-btn);
+}
+.link-home:hover { background: var(--primary-soft); transform: translateY(-2px); }
+.link-outline {
+  border: 2px solid var(--border);
+  color: var(--text-muted);
+  box-shadow: var(--sh-sm);
+}
+.link-outline:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
+[data-theme="dark"] .link-home:hover    { box-shadow: var(--glow-md); }
+[data-theme="dark"] .link-outline:hover { box-shadow: var(--glow-sm); }
+
+/* ── Minimal footer ── */
+.footer-404 {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 1.2rem 5%;
+  font-size: .8rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  font-family: 'Fira Code', monospace;
+}
+
+/* ── Shared animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .err-num { letter-spacing: -2px; }
+  .term-body { min-height: 200px; font-size: .82rem; }
+  .burst-emoji { font-size: 1.4rem; }
+}
